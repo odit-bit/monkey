@@ -1,11 +1,7 @@
 
-let adderTwo = fn (x) {
-    x + 2
-}
+let adderTwo = fn (x) {x + 2;}
 
-let minAddertwo = fn(x, adderTwo) {
-   return x - adderTwo(x);
-}
+let minAddertwo = fn(x, adderTwo) {return x - adderTwo(x);}
 
 //print to stdout
 puts(minAddertwo(10, adderTwo))

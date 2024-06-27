@@ -23,7 +23,7 @@ it should return
 
 #### FILE
 interpreted from file 
-```
+```go
 go run ./cli/monkey ./example/monkey
 ```
 
@@ -32,12 +32,20 @@ go run ./cli/monkey ./example/monkey
 Example can be found in `example/` dir
 
 #### statement
-```
+```monkey
  let a = 10;
  let b = 3;
 ```
-#### arithmatic
+
+#### function
+```go
+let adderTwo = fn (x) {x + 2;}
+let minAddertwo = fn(x, adderTwo) {return x - adderTwo(x);}
+minAddertwo(10, adderTwo) // call the function
 ```
+
+#### arithmatic
+```go
 5 > 3;          // true
 2 + 5 < 10 ;    // true
 4 == 2 * 2;     // true
@@ -45,5 +53,18 @@ Example can be found in `example/` dir
 ```
 
 #### built-in type
+
+### string
+```go
+// concat string
+let a = "hello";
+let b = "world";
+let concatWord = fn (a,b) {return a + " " + b;};
+```
+
+### array
+```go
+let arr = ["hello", "world", 2000 + 24];
+```
 
 ##### WIP
