@@ -19,6 +19,7 @@ const (
 	STRING_OBJ   = "STRING"
 
 	BUILTIN_OBJ = "BUILTIN"
+	ARRAY_OBJ   = "ARRAY"
 )
 
 type Object interface {
@@ -168,5 +169,5 @@ func (a *Array) Inspect() string {
 }
 
 func (a *Array) Type() ObjectType {
-	panic("unimplemented")
+	return ARRAY_OBJ
 }

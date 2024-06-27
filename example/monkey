@@ -16,8 +16,12 @@ let b = "world";
 
 let concatWord = fn (a,b) {return a + " " + b;};
 
-// print concatWord
-puts(concatWord(a,b))
 
-//print length of "hello world"
-puts(len(concatWord(a,b)))
+puts(concatWord(a,b)) // print concatWord
+
+
+puts(len(concatWord(a,b))) //print length of "hello world"
+
+
+let arr = ["hello", "world", 2000 + 24];
+puts(arr)// [hello, world, 2024]
