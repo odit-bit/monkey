@@ -63,17 +63,15 @@ func (p *Parser) parseReturnStatement() ast.Statement {
 	return &retStmt
 }
 
-// func (p *Parser) parseComment() ast.Statement {
-// 	cmt := ast.Comment{
-// 		Token:  p.currToken,
-// 		Values: []ast.Expression{},
-// 	}
+func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+	stmt := ast.ExpressionStatement{
+		Token: p.currToken,
+	}
+	stmt.Expression = p.parseExpression(LOWEST)
 
-// 	p.nextToken()
-// 	for p.currToken.Type != token.SEMICOLON && p.currToken.Type != token.EOF {
-// 		stmt := p.parseExpression(LOWEST)
-// 		cmt.Values = append(cmt.Values, stmt)
-// 		p.nextToken()
-// 	}
-// 	return &cmt
-// }
+	if p.peekToken.Type == token.SEMICOLON {
+		p.nextToken()
+	}
+
+	return &stmt
+}

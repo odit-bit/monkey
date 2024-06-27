@@ -95,23 +95,6 @@ func Test_Parse_Expression(t *testing.T) {
 
 }
 
-func Test_Parse_integerLiteral(t *testing.T) {
-	var input = "5;"
-
-	l := lexer.New(input)
-	p := New(l)
-
-	prog := p.ParseProgram()
-	if !assert.Len(t, prog.Statements, 1) {
-		checkError(t, p)
-		t.FailNow()
-	}
-
-	assert.IsType(t, &ast.ExpressionStatement{}, prog.Statements[0])
-	expr := prog.Statements[0].(*ast.ExpressionStatement)
-	testLiteralExpression(t, expr.Expression, 5)
-}
-
 func Test_Parse_PrefixExpression(t *testing.T) {
 	var tt = []struct {
 		input    string
@@ -316,24 +299,6 @@ func Test_Parse_comment(t *testing.T) {
 	prog := p.ParseProgram()
 	_ = prog
 	checkError(t, p)
-}
-
-func testLiteralExpression(t *testing.T, expr ast.Expression, expected any) {
-
-	switch v := expected.(type) {
-	case int:
-		testIntegerLiteral(t, expr, int64(v))
-	case int64:
-		testIntegerLiteral(t, expr, v)
-	case string:
-		testIdentifier(t, expr, v)
-	case bool:
-		testBoolean(t, expr, v)
-	default:
-		t.Errorf("invalid type of expr . got= %T", expr)
-		return
-	}
-
 }
 
 func testBoolean(t *testing.T, expr ast.Expression, value bool) {

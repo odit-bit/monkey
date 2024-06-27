@@ -59,7 +59,7 @@ func (reState *ReturnStatement) TokenLiteral() string {
 }
 
 // IDENT
-var _ Node = (*Identifier)(nil)
+var _ Expression = (*Identifier)(nil)
 
 type Identifier struct {
 	Token token.Token

@@ -98,6 +98,11 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Literal = ""
 		tok.Type = token.EOF
 
+	//Data type
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
+
 	default:
 		//this default will advanced the lexer by readIdentifier or readNumber
 		if isLetter(l.ch) {
@@ -112,6 +117,7 @@ func (l *Lexer) NextToken() token.Token {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
+
 	l.readChar()
 	return tok
 }
@@ -139,6 +145,18 @@ func (l *Lexer) readIdentifier() string {
 	}
 
 	return string(l.input[pos:l.pos])
+}
+
+func (l *Lexer) readString() string {
+	position := l.pos + 1 // pointed to char next of char ["]
+	for {
+		l.readChar()
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+	}
+
+	return l.input[position:l.pos]
 }
 
 func (l *Lexer) readNumber() string {

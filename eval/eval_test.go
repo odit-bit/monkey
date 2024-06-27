@@ -9,43 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_EvalInteger(t *testing.T) {
-	tests := []struct {
-		input    string
-		expected int64
-	}{
-		{"5", 5},
-		{"10", 10},
-		{"-25", -25},
-		{"10 - 5", 5},
-		{"10 - 5 * 2", 0},
-		{"10 - 5 * 2 + 10", 10},
-		{"10 - 5 * 2 + 10/5", 2},
-	}
-
-	for _, tc := range tests {
-		obj := testEval(tc.input)
-		testIntegerObject(t, obj, tc.expected)
-	}
-}
-
-func Test_EvalBoolean(t *testing.T) {
-	tests := []struct {
-		input    string
-		expected bool
-	}{
-		{"true", true},
-		{"false", false},
-		{"5 == 5", true},
-		{"(1 < 2) == true", true},
-		{"(1 < 2) == false", false},
-	}
-
-	for _, tc := range tests {
-		obj := testEval(tc.input)
-		testBooleanObject(t, obj, tc.expected)
-	}
-}
 
 func Test_BangOperator(t *testing.T) {
 	tt := []struct {
@@ -158,20 +121,3 @@ func testNullObject(t *testing.T, obj object.Object) {
 	assert.IsType(t, true, truth)
 }
 
-func testIntegerObject(t *testing.T, obj object.Object, expect int64) {
-	if !assert.IsType(t, &object.Integer{}, obj) {
-		t.Fail()
-		return
-	}
-	intObj := obj.(*object.Integer)
-	if !assert.Equal(t, expect, intObj.Value) {
-		t.Log(obj.Inspect())
-		t.Fail()
-	}
-}
-
-func testBooleanObject(t *testing.T, obj object.Object, expect bool) {
-	assert.IsType(t, &object.Boolean{}, obj)
-	intObj := obj.(*object.Boolean)
-	assert.Equal(t, expect, intObj.Value)
-}

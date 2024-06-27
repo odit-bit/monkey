@@ -37,22 +37,6 @@ func (e *ExpressionStatement) TokenLiteral() string {
 
 func (e *ExpressionStatement) expressionNode() {}
 
-// IntegerLiteral
-type Integer struct {
-	Token token.Token
-	Value int64
-}
-
-func (il *Integer) TokenLiteral() string {
-	return il.Token.Literal
-}
-
-func (il *Integer) String() string {
-	return il.Token.Literal
-}
-
-func (il *Integer) expressionNode() {}
-
 type Prefix struct {
 	Token    token.Token
 	Operator string

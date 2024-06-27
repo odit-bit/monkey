@@ -16,10 +16,13 @@ func Test_nextToken(t *testing.T) {
 	};
 
 	let result = add(five, ten);
+
 	// this comment
 	!-/*<>==!=;
 	// this comment
 
+
+	"this is STRING"
 	`
 
 	test := []struct {
@@ -76,11 +79,7 @@ func Test_nextToken(t *testing.T) {
 		{token.NOT_EQ, "!="},
 		{token.SEMICOLON, ";"},
 
-		// {token.COMMENT, "//"},
-		// {token.IDENT, "this"},
-		// {token.IDENT, "comment"},
-		// {token.SEMICOLON, ";"},
-
+		{token.STRING, "this is STRING"},
 		{token.EOF, ""},
 	}
 

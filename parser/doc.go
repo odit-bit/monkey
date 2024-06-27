@@ -47,3 +47,10 @@ package parser
 	function call
 	<expression>(<comma separated expressions>)
 */
+
+/*
+	Built-in Data type
+
+	STRING
+	"<sequence of characters>"
+*/

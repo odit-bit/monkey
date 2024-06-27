@@ -37,6 +37,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.Boolean:
 		return evalBool(node.Value)
 
+	case *ast.String:
+		return &object.String{Value: node.Value}
+
 	case *ast.Prefix:
 		right := Eval(node.Right, env)
 		if isError(right) {

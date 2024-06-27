@@ -2,24 +2,10 @@ package parser
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/odit-bit/monkey/ast"
 	"github.com/odit-bit/monkey/token"
 )
-
-func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
-	stmt := ast.ExpressionStatement{
-		Token: p.currToken,
-	}
-	stmt.Expression = p.parseExpression(LOWEST)
-
-	if p.peekToken.Type == token.SEMICOLON {
-		p.nextToken()
-	}
-
-	return &stmt
-}
 
 func (p *Parser) parseExpression(preced int) ast.Expression {
 	leftExpFunc := p.prefixParse[p.currToken.Type]
@@ -48,20 +34,6 @@ func (p *Parser) parseIdentifier() ast.Expression {
 	ident.Token = p.currToken
 	ident.Value = p.currToken.Literal
 	return &ident
-}
-
-func (p *Parser) parseIntegerLiteral() ast.Expression {
-	n, err := strconv.Atoi(p.currToken.Literal)
-	if err != nil {
-		p.addError(fmt.Errorf("wrong type of integer, got %s", p.currToken.Literal))
-		return nil
-	}
-	stmt := ast.Integer{
-		Token: p.currToken,
-		Value: int64(n),
-	}
-
-	return &stmt
 }
 
 /////////////////////////////////////
