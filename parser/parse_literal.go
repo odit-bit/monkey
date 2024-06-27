@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/odit-bit/monkey/ast"
+	"github.com/odit-bit/monkey/token"
 )
 
 func (p *Parser) parseIntegerLiteral() ast.Expression {
@@ -27,4 +28,14 @@ func (p *Parser) parseStringLiteral() ast.Expression {
 		Value: p.currToken.Literal,
 	}
 	return &stmt
+}
+
+func (p *Parser) parseArrayLiteral() ast.Expression {
+	arr := ast.Array{
+		Token:    p.currToken,
+		Elements: []ast.Expression{},
+	}
+
+	arr.Elements = p.parseExpressionList(token.RBRACKET)
+	return &arr
 }

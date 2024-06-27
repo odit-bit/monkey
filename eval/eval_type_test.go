@@ -60,6 +60,20 @@ func Test_EvalBoolean(t *testing.T) {
 	}
 }
 
+func Test_Eval_Array(t *testing.T) {
+	tt := []struct {
+		input    string
+		expected string
+	}{
+		{`["hello", "world", 2000 + 24];`, "[hello, world, 2024]"},
+	}
+
+	for _, tc := range tt {
+		obj := testEval(tc.input)
+		assert.Equal(t, tc.expected, obj.Inspect())
+	}
+}
+
 func testLiteralObject(t *testing.T, obj object.Object, expect any) {
 	switch val := expect.(type) {
 	case string:

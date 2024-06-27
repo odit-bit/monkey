@@ -40,6 +40,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.String:
 		return &object.String{Value: node.Value}
 
+	case *ast.Array:
+		return evalArray(node, env)
+
 	case *ast.Prefix:
 		right := Eval(node.Right, env)
 		if isError(right) {
@@ -159,6 +162,16 @@ func evalBool(input bool) *object.Boolean {
 	} else {
 		return FALSE
 	}
+}
+
+func evalArray(node *ast.Array, env *object.Environment) object.Object {
+	arr := object.Array{
+		Elements: []object.Object{},
+	}
+
+	arrObj := evalExpression(node.Elements, env)
+	arr.Elements = arrObj
+	return &arr
 }
 
 func evalIF(expr *ast.IF, env *object.Environment) object.Object {

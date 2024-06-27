@@ -43,6 +43,34 @@ func Test_Parse_String_Literal(t *testing.T) {
 	assert.Equal(t, "i am string", strExpr.Value)
 }
 
+func Test_Parse_Array_Literal(t *testing.T) {
+	var input = `[1, "one", 3+5];`
+
+	l := lexer.New(input)
+	p := New(l)
+
+	prog := p.ParseProgram()
+	checkError(t, p)
+
+	expr, ok := prog.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Errorf("not expression statement, %T", prog.Statements[0])
+	}
+
+	arrExpr, ok := expr.Expression.(*ast.Array)
+	if !ok {
+		t.Errorf("not array literal, %T", expr.Expression)
+	}
+
+	_ = arrExpr
+	assert.Len(t, arrExpr.Elements, 3)
+
+	assert.Equal(t, "1", arrExpr.Elements[0].String())
+	assert.Equal(t, "one", arrExpr.Elements[1].String())
+	testInfixExpression(t, arrExpr.Elements[2], 3, 5, "+")
+
+}
+
 func testLiteralExpression(t *testing.T, expr ast.Expression, expected any) {
 
 	switch v := expected.(type) {

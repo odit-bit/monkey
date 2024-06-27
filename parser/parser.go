@@ -38,6 +38,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefixFunc(token.IF, p.parseIF)
 	p.registerPrefixFunc(token.FUNCTION, p.parseFunction)
 	p.registerPrefixFunc(token.STRING, p.parseStringLiteral)
+	p.registerPrefixFunc(token.LBRACKET, p.parseArrayLiteral)
 
 	// infix
 	p.registerInfixFunc(token.PLUS, p.parseInfixExpression)
@@ -67,6 +68,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	}
 
 	for p.currToken.Type != token.EOF {
+
 		stmt := p.parseStatement()
 		//push non-nil statement
 		if stmt != nil {
@@ -75,7 +77,6 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 		p.nextToken()
 	}
-
 	return &program
 }
 

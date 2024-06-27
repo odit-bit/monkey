@@ -53,4 +53,10 @@ package parser
 
 	STRING
 	"<sequence of characters>"
+
+	Array
+	[<expression>, <expression>]
+
+	Array-op index
+	<expression>[<expression>]
 */

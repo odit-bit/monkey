@@ -274,3 +274,33 @@ func (p *Parser) parseCallArgs() []ast.Expression {
 
 	return args
 }
+
+// parse expression as a list []ast.Expression
+func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
+	el := []ast.Expression{}
+
+	// found the bracket (empty array)
+	if p.peekToken.Type == end {
+		p.nextToken()
+		return el
+	}
+
+	// first element
+	p.nextToken()
+	el = append(el, p.parseExpression(LOWEST))
+
+	// read for next element
+	for p.peekToken.Type == token.COMMA {
+		p.nextToken()
+		p.nextToken()
+		el = append(el, p.parseExpression(LOWEST))
+	}
+
+	// array ended
+	if p.peekToken.Type == end {
+		p.nextToken()
+		return el
+	} else {
+		return nil
+	}
+}

@@ -7,6 +7,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_read_comment(t *testing.T) {
+	input := "// this is comment;"
+
+	l := New(input)
+	tkn := l.NextToken()
+	assert.Equal(t, token.TokenType(token.EOF), tkn.Type)
+}
+
 func Test_nextToken(t *testing.T) {
 	var input = `let five = 5;
 	let ten = 10;
@@ -23,6 +31,9 @@ func Test_nextToken(t *testing.T) {
 
 
 	"this is STRING"
+
+	[1, "one"];
+
 	`
 
 	test := []struct {
@@ -80,6 +91,14 @@ func Test_nextToken(t *testing.T) {
 		{token.SEMICOLON, ";"},
 
 		{token.STRING, "this is STRING"},
+
+		{token.LBRACKET, "["},
+		{token.INT, "1"},
+		{token.COMMA, ","},
+		{token.STRING, "one"},
+		{token.RBRACKET, "]"},
+		{token.SEMICOLON, ";"},
+
 		{token.EOF, ""},
 	}
 

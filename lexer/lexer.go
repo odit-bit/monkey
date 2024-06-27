@@ -36,7 +36,6 @@ func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
 	l.skipWhiteSpace()
-
 	switch l.ch {
 	//operator
 	case '=':
@@ -93,6 +92,10 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.COMMA, l.ch)
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
+	case '[':
+		tok = newToken(token.LBRACKET, l.ch)
+	case ']':
+		tok = newToken(token.RBRACKET, l.ch)
 
 	case 0:
 		tok.Literal = ""
@@ -102,6 +105,9 @@ func (l *Lexer) NextToken() token.Token {
 	case '"':
 		tok.Type = token.STRING
 		tok.Literal = l.readString()
+
+	// case '[':
+	// 	panic("not implement")
 
 	default:
 		//this default will advanced the lexer by readIdentifier or readNumber
@@ -178,7 +184,8 @@ func (l *Lexer) skipWhiteSpace() {
 
 // advance pointer until found newline
 func (l *Lexer) skipComment() {
-	for l.ch != '\n' && l.ch != '\r' {
+
+	for l.ch != '\n' && l.ch != '\r' && l.ch != 0 {
 		l.readChar()
 	}
 }
