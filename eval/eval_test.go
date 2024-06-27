@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-
 func Test_BangOperator(t *testing.T) {
 	tt := []struct {
 		input    string
@@ -107,6 +106,26 @@ func Test_Eval_Call_Function(t *testing.T) {
 	}
 }
 
+func Test_Builtin_function(t *testing.T) {
+	tt := []struct {
+		input    string
+		expected any
+	}{
+		{`puts("hello world")`, NULL},
+		{`len("hello world")`, int64(11)},
+	}
+
+	for _, tc := range tt {
+		obj := testEval(tc.input)
+		switch expected := tc.expected.(type) {
+		case *object.Null:
+			assert.IsType(t, expected, obj)
+		default:
+			testLiteralObject(t, obj, tc.expected)
+		}
+	}
+}
+
 func testEval(input string) object.Object {
 	l := lexer.New(input)
 	p := parser.New(l)
@@ -120,4 +139,3 @@ func testNullObject(t *testing.T, obj object.Object) {
 	truth := obj != NULL
 	assert.IsType(t, true, truth)
 }
-

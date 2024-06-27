@@ -65,11 +65,8 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		return evalBlockStatement(node, env)
 
 	case *ast.Identifier:
-		if obj, ok := env.Get(node.Value); !ok {
-			return newError("identifier is not found: %s", node.Value)
-		} else {
-			return obj
-		}
+		return evalIdentifier(node, env)
+
 	case *ast.FunctionLiteral:
 		return evalFunction(node, env)
 
@@ -81,11 +78,26 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		args := evalExpression(node.Args, env)
 
 		return applyFunction(function, args, env)
+
 	default:
 		return newError("invalid node type: %T \n", node)
 	}
 
 	return nil
+}
+
+func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object {
+
+	if obj, ok := env.Get(node.Value); ok {
+		return obj
+	}
+
+	if builtin, ok := builtinMap[node.Value]; ok {
+		return builtin
+	}
+
+	return newError("identifier is not found: %s", node.Value)
+
 }
 
 func evalExpression(node []ast.Expression, env *object.Environment) []object.Object {

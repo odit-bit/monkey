@@ -6,6 +6,18 @@ let adderTwo = fn (x) {
 let minAddertwo = fn(x, adderTwo) {
    return x - adderTwo(x);
 }
-//this is one line comment
-minAddertwo(10, adderTwo)
 
+//print to stdout
+puts(minAddertwo(10, adderTwo))
+
+// concat string
+let a = "hello";
+let b = "world";
+
+let concatWord = fn (a,b) {return a + " " + b;};
+
+// print concatWord
+puts(concatWord(a,b))
+
+//print length of "hello world"
+puts(len(concatWord(a,b)))

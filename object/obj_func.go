@@ -29,3 +29,23 @@ func (f *Function) Inspect() string {
 func (f *Function) Type() ObjectType {
 	return FUNCTION_OBJ
 }
+
+//BUILTIN OBJECT
+
+type BuiltinFunc func(a ...Object) Object
+
+var _ Object = (*Builtin)(nil)
+
+type Builtin struct {
+	Fn BuiltinFunc
+}
+
+// Inspect implements Object.
+func (b *Builtin) Inspect() string {
+	return "BUILTIN FUNCTION"
+}
+
+// Type implements Object.
+func (b *Builtin) Type() ObjectType {
+	return BUILTIN_OBJ
+}

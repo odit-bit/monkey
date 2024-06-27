@@ -38,6 +38,8 @@ func main() {
 	prog := p.ParseProgram()
 	obj := eval.Eval(prog, env)
 
-	io.WriteString(os.Stdout, obj.Inspect())
-	io.WriteString(os.Stdout, "\n")
+	if obj != nil && obj != eval.NULL {
+		io.WriteString(os.Stdout, obj.Inspect())
+		io.WriteString(os.Stdout, "\n")
+	}
 }

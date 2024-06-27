@@ -14,20 +14,22 @@ func evalFunction(node *ast.FunctionLiteral, env *object.Environment) object.Obj
 }
 
 func applyFunction(function object.Object, args []object.Object, env *object.Environment) object.Object {
-	fn, ok := function.(*object.Function)
-	if !ok {
+	switch t := function.(type) {
+	case *object.Function:
+		encloseEnv := object.NewEnclosed(env)
+		for i, v := range t.Parameter {
+			encloseEnv.Set(v.Value, args[i])
+		}
+		result := Eval(t.Body, encloseEnv)
+		if ret, ok := result.(*object.ReturnObj); ok {
+			return ret.Value
+		}
+		return result
+	case *object.Builtin:
+		return t.Fn(args...)
+
+	default:
 		return newError("not function type: %s", function.Type())
 	}
 
-	encloseEnv := object.NewEnclosed(env)
-	for i, v := range fn.Parameter {
-		encloseEnv.Set(v.Value, args[i])
-	}
-
-	obj := Eval(fn.Body, encloseEnv)
-
-	if ret, ok := obj.(*object.ReturnObj); ok {
-		return ret.Value
-	}
-	return obj
 }
